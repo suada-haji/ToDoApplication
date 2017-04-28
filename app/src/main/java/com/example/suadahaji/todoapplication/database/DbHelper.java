@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public DbHelper(Context context) {
         super(context, Constants.DB_NAME, null, Constants.DB_VERSION);
     }
 
@@ -24,7 +24,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String creatTableQuery = "CREATE TABLE IF NOT EXISTS " + Constants.DB_TABLE + " (" +
                 Constants.TABLE_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                Constants.TABLE_COLUMN_NAME + " TEXT NOT NULL );";
+                Constants.TABLE_COLUMN_NAME + " TEXT NOT NULL, " +
+                Constants.TABLE_COLUMN_SELECTED + " TEXT NOT NULL);";
         db.execSQL(creatTableQuery);
 
     }
@@ -37,30 +38,53 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
-    public void insertNewTask(String task) {
+    public void insertNewTask(TaskModel task) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(Constants.TABLE_COLUMN_NAME, task);
+        values.put(Constants.TABLE_COLUMN_NAME, task.getTask_name());
+        values.put(Constants.TABLE_COLUMN_SELECTED, task.isSelected());
         database.insertWithOnConflict(Constants.DB_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         database.close();
     }
 
-    public void deleteTask(String task) {
+    public void deleteTask(TaskModel task) {
+
+        String dbQuery = "DELETE FROM " + Constants.DB_TABLE + " WHERE " +
+                Constants.TABLE_COLUMN_NAME + " = '" + task.getTask_name() + "'";
+
         SQLiteDatabase database = this.getWritableDatabase();
-        database.delete(Constants.DB_TABLE, Constants.TABLE_COLUMN_NAME + " - ?", new String[]{task});
+        database.execSQL(dbQuery);
         database.close();
     }
 
-    public ArrayList<String> getTrackList() {
-        ArrayList<String> taskList = new ArrayList<>();
+    private TaskModel getFromCursor(Cursor cursor) {
+        TaskModel model = new TaskModel();
+
+        model.setTask_id((int) cursor.getLong(0));
+        model.setTask_name(cursor.getString(1));
+        model.setSelected(Boolean.valueOf(cursor.getString(2)));
+        return model;
+    }
+
+    public ArrayList<TaskModel> getTrackList() {
         SQLiteDatabase database = this.getReadableDatabase();
-        Cursor cursor = database.query(Constants.DB_TABLE, new String[]{Constants.TABLE_COLUMN_NAME}, null, null, null, null, null);
+
+        String[] columns = {
+                Constants.TABLE_COLUMN_ID,
+                Constants.TABLE_COLUMN_NAME,
+                Constants.TABLE_COLUMN_SELECTED
+        };
+
+        String order = Constants.TABLE_COLUMN_ID_ORDER;
+        Cursor cursor = database.query(Constants.DB_TABLE, columns, null, null, null, null, order);
+
+        ArrayList<TaskModel> tasks = new ArrayList<>();
         while (cursor.moveToNext()) {
-            int index = cursor.getColumnIndex(Constants.TABLE_COLUMN_NAME);
-            taskList.add(cursor.getString(index));
+            tasks.add(getFromCursor(cursor));
         }
+
         cursor.close();
         database.close();
-        return taskList;
+        return tasks;
     }
  }
