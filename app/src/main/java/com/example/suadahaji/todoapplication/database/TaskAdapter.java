@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.suadahaji.todoapplication.R;
 
@@ -46,7 +45,7 @@ public class TaskAdapter extends ArrayAdapter<TaskModel> {
         ViewHolder viewHolder;
 
         if (row == null) {
-            LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.row, parent, false);
 
             viewHolder = new ViewHolder();
@@ -54,21 +53,6 @@ public class TaskAdapter extends ArrayAdapter<TaskModel> {
             viewHolder.task_name = (TextView) row.findViewById(R.id.task_title);
             viewHolder.task_isSelected = (CheckBox) row.findViewById(R.id.is_selected);
             row.setTag(viewHolder);
-
-            viewHolder.task_isSelected.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CheckBox box = (CheckBox) v;
-                    TaskModel task = (TaskModel) box.getTag();
-                    Toast.makeText(context,
-                            "Clicked on Checkbox: " + box.getText() +
-                                    " is " + box.isChecked(),
-                            Toast.LENGTH_LONG).show();
-                    task.setSelected(box.isSelected());
-                }
-            });
-
-
         } else {
             viewHolder = (ViewHolder) row.getTag();
         }
@@ -76,14 +60,14 @@ public class TaskAdapter extends ArrayAdapter<TaskModel> {
         TaskModel taskModel = tasks.get(position);
 
         viewHolder.task_name.setText(taskModel.getTask_name());
-        viewHolder.task_isSelected.setChecked(taskModel.isSelected());
-        viewHolder.task_isSelected.setTag(taskModel);
 
         if (taskModel.isSelected()) {
-            viewHolder.task_name.setPaintFlags(viewHolder.task_name.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            viewHolder.task_isSelected.setChecked(true);
+            viewHolder.task_name.setPaintFlags(viewHolder.task_name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            viewHolder.task_isSelected.setChecked(false);
+            viewHolder.task_name.setPaintFlags(viewHolder.task_name.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
-
-
         return row;
     }
 }
