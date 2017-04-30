@@ -6,11 +6,11 @@ package com.example.suadahaji.todoapplication.database;
 
 public class TaskModel  {
 
-    private int task_id;
+    private Long _id;
 
     private String task_name;
 
-    private boolean selected = false;
+    private boolean selected;
 
     public TaskModel() {
     }
@@ -20,12 +20,12 @@ public class TaskModel  {
         this.selected = selected;
     }
 
-    public int getTask_id() {
-        return task_id;
+    public Long get_id() {
+        return _id;
     }
 
-    public void setTask_id(int task_id) {
-        this.task_id = task_id;
+    public void set_id(Long _id) {
+        this._id = _id;
     }
 
     public String getTask_name() {
