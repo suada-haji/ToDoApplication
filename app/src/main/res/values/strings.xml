@@ -10,4 +10,5 @@
     <string name="progress">Progress</string>
     <string name="percentage_done">33% Done</string>
     <string name="no_tasks">You have no tasks</string>
+    <string name="splash_msg">Keep tasks delegated and create a to do list</string>
 </resources>
