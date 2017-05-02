@@ -12,10 +12,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -62,6 +64,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     TextView tvProgress;
     @BindView(R.id.tv_listview_header)
     TextView tvListViewHeader;
+    @BindView(R.id.llprogress)
+    LinearLayout llProgress;
+    @BindView(R.id.empty_layout)
+    TextView tvEmptyLayout;
 
 
     @Override
@@ -71,6 +77,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         ButterKnife.bind(this);
         init();
+
+        // Disable soft keyboard from displaying automatically
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     public void init() {
@@ -94,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         tvListViewHeader.setPaintFlags(tvListViewHeader.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         etNewItem.setTypeface(BaseApplication.ROBOTO_MEDIUM);
         btnAddTask.setTypeface(BaseApplication.ROBOTO_BOLD);
+        tvEmptyLayout.setTypeface(BaseApplication.ROBOTO_MEDIUM);
         progressBar.setScaleY(3f);
         progressBar.setMax(100);
     }
@@ -112,12 +122,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             taskQuery = cupboard().withCursor(tasks).iterate(TaskModel.class);
             for (TaskModel task : taskQuery) {
                 tasksList.add(0, task);
-            }
+            } setEmptyView(tasksList);
         } finally {
             // close the cursor
             tasks.close();
         }
 
+    }
+
+    public void setEmptyView(ArrayList<TaskModel> tasks) {
+        if (tasks.size() < 1) {
+            View view = findViewById(R.id.frame_empty);
+            view.setVisibility(view.VISIBLE);
+            llProgress.setVisibility(View.GONE);
+            tvListViewHeader.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -156,7 +175,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         model.setTask_name(String.valueOf(name.getText()));
         model.setSelected(selected.isChecked());
-       // Log.d("Bool", "Position is " + taskPosition);
         ContentValues values = new ContentValues(1);
         values.put("selected", model.isSelected());
         cupboard().withDatabase(database).update(TaskModel.class, values, "task_name = ?", model.getTask_name());
@@ -257,6 +275,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             mActionMode = null;
         }
     };
+
+
+    /**
+     * Calculate completed tasks
+     */
 
     public void getCompletedTasks() {
         ArrayList<TaskModel> tasks = new ArrayList<>();

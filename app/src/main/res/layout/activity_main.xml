@@ -84,6 +84,35 @@
             android:layout_above="@+id/btnAddTask"
             android:layout_below="@id/tv_listview_header"
             android:layout_marginLeft="-10dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/frame_empty"
+            android:visibility="gone"
+            android:layout_above="@+id/btnAddTask"
+            android:layout_below="@id/tv_listview_header">
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/empty_task_view"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/empty_image"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="You have no tasks"
+                android:id="@+id/empty_layout"
+                android:textSize="20sp"
+                android:layout_below="@id/empty_image"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/textColor"
+
+                />
+            </RelativeLayout>
 
         <EditText
             android:layout_width="wrap_content"
