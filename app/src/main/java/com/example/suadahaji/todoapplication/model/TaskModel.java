@@ -1,4 +1,4 @@
-package com.example.suadahaji.todoapplication.database;
+package com.example.suadahaji.todoapplication.model;
 
 /**
  * Created by suadahaji
@@ -13,11 +13,6 @@ public class TaskModel  {
     private boolean selected;
 
     public TaskModel() {
-    }
-
-    public TaskModel(String task_name, boolean selected) {
-        this.task_name = task_name;
-        this.selected = selected;
     }
 
     public Long get_id() {

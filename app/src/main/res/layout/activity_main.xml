@@ -5,40 +5,156 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.suadahaji.todoapplication.MainActivity">
+    tools:context="com.example.suadahaji.todoapplication.views.MainActivity">
 
-    <ListView
-        android:id="@+id/listTask"
+    <LinearLayout
+        android:id="@+id/llprogress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btnAddItem"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:background="@color/layout_bg"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
 
-    <EditText
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/progress_header_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tasks_to_complete"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/text_20" />
+
+        <TextView
+            android:id="@+id/progress_header_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_5"
+            android:text="@string/progress"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/text_16" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/margin_5"
+                android:layout_alignBottom="@+id/tv_progress"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@+id/tv_progress"
+                android:layout_toStartOf="@+id/tv_progress" />
+
+            <TextView
+                android:id="@+id/tv_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:text="@string/percentage_done"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/text_12" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etNewItem"
-        android:layout_alignTop="@+id/btnAddItem"
-        android:hint="Enter a new item"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/btnAddItem"
-        android:layout_toStartOf="@+id/btnAddItem"
-        android:layout_alignParentBottom="true" />
+        android:layout_below="@id/llprogress"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Item"
-        android:id="@+id/btnAddItem"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="createTask" />
+        <TextView
+            android:id="@+id/tv_listview_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:text="@string/to_do"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/text_15" />
 
+        <ListView
+            android:id="@+id/listTask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/etNewTask"
+            android:layout_below="@id/tv_listview_header"
+            android:layout_marginLeft="@dimen/margin_minus_10" />
+
+        <RelativeLayout
+            android:id="@+id/frame_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btnAddTask"
+            android:layout_below="@id/tv_listview_header"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/empty_image"
+                android:layout_width="@dimen/margin_150"
+                android:layout_height="@dimen/margin_150"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/empty_task_view" />
+
+            <TextView
+                android:id="@+id/empty_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/empty_image"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/margin_10"
+                android:text="@string/no_tasks"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/text_20" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/etNewTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/btnAddTask"
+            android:layout_toStartOf="@+id/btnAddTask"
+            android:hint="@string/enter_a_new_task"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="3"
+            android:scrollbars="vertical"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/text_16" />
+
+        <Button
+            android:id="@+id/btnAddTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/etNewTask"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:layout_marginLeft="@dimen/margin_20"
+            android:layout_marginRight="@dimen/margin_20"
+            android:layout_marginTop="@dimen/margin_5"
+            android:background="@color/colorAccent"
+            android:minHeight="@dimen/margin_30"
+            android:minWidth="@dimen/margin_60"
+            android:onClick="createTask"
+            android:text="@string/add"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_12" />
+
+    </RelativeLayout>
 
 
 </RelativeLayout>
