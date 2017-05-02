@@ -2,4 +2,12 @@
     <string name="app_name">To Do List</string>
     <string name="delete_task">Delete</string>
     <string name="progress_percentage">% Done</string>
+    <string name="taskTitle">Make an Awesome Android App</string>
+    <string name="enter_a_new_task">Enter a new task</string>
+    <string name="add">Add</string>
+    <string name="to_do">TO DO</string>
+    <string name="tasks_to_complete">Tasks to Complete</string>
+    <string name="progress">Progress</string>
+    <string name="percentage_done">33% Done</string>
+    <string name="no_tasks">You have no tasks</string>
 </resources>

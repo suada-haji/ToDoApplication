@@ -72,11 +72,11 @@ public class TaskAdapter extends ArrayAdapter<TaskModel> {
         if (taskModel.isSelected()) {
             viewHolder.task_isSelected.setChecked(true);
             viewHolder.task_name.setPaintFlags(viewHolder.task_name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            viewHolder.task_name.setTypeface(BaseApplication.ROBOTO_REGULAR);
+            viewHolder.task_name.setTypeface(BaseApplication.ROBOTO_LIGHT);
         } else {
             viewHolder.task_isSelected.setChecked(false);
             viewHolder.task_name.setPaintFlags(viewHolder.task_name.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-            viewHolder.task_name.setTypeface(BaseApplication.ROBOTO_MEDIUM);
+            viewHolder.task_name.setTypeface(BaseApplication.ROBOTO_REGULAR);
         }
         return row;
     }
