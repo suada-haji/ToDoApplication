@@ -19,6 +19,7 @@
     <dimen name="margin_30">30dp</dimen>
     <dimen name="margin_60">60dp</dimen>
     <dimen name="margin_150">150dp</dimen>
+    <dimen name="margin_180">180dp</dimen>
 
 
 </resources>
