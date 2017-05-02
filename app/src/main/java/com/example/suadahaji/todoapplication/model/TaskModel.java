@@ -1,4 +1,4 @@
-package com.example.suadahaji.todoapplication.database;
+package com.example.suadahaji.todoapplication.model;
 
 /**
  * Created by suadahaji

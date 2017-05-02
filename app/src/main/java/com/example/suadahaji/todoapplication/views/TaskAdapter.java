@@ -1,4 +1,4 @@
-package com.example.suadahaji.todoapplication.database;
+package com.example.suadahaji.todoapplication.views;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.suadahaji.todoapplication.R;
+import com.example.suadahaji.todoapplication.model.TaskModel;
 
 import java.util.ArrayList;
 

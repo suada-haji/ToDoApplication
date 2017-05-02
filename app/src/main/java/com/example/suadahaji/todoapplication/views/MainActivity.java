@@ -1,4 +1,4 @@
-package com.example.suadahaji.todoapplication;
+package com.example.suadahaji.todoapplication.views;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -18,9 +18,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.suadahaji.todoapplication.database.TaskAdapter;
+import com.example.suadahaji.todoapplication.R;
 import com.example.suadahaji.todoapplication.database.TaskDbHelper;
-import com.example.suadahaji.todoapplication.database.TaskModel;
+import com.example.suadahaji.todoapplication.model.TaskModel;
 
 import java.util.ArrayList;
 
