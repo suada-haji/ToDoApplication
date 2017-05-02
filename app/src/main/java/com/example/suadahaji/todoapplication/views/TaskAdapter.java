@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.example.suadahaji.todoapplication.BaseApplication;
+import com.example.suadahaji.todoapplication.utils.BaseApplication;
 import com.example.suadahaji.todoapplication.R;
 import com.example.suadahaji.todoapplication.model.TaskModel;
 
@@ -60,8 +60,6 @@ public class TaskAdapter extends ArrayAdapter<TaskModel> {
 
             viewHolder = new ViewHolder(row);
 
-            viewHolder.task_name = (TextView) row.findViewById(R.id.task_title);
-            viewHolder.task_isSelected = (CheckBox) row.findViewById(R.id.is_selected);
             row.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) row.getTag();

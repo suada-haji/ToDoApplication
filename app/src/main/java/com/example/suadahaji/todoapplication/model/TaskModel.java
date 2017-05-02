@@ -15,11 +15,6 @@ public class TaskModel  {
     public TaskModel() {
     }
 
-    public TaskModel(String task_name, boolean selected) {
-        this.task_name = task_name;
-        this.selected = selected;
-    }
-
     public Long get_id() {
         return _id;
     }

@@ -1,4 +1,4 @@
-package com.example.suadahaji.todoapplication;
+package com.example.suadahaji.todoapplication.utils;
 
 import android.app.Application;
 import android.graphics.Typeface;
@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 
 public class BaseApplication extends Application {
     public static Typeface ROBOTO_BLACK;
+    public static Typeface ROBOTO_BOLD;
     public static Typeface ROBOTO_LIGHT;
     public static Typeface ROBOTO_MEDIUM;
     public static Typeface ROBOTO_REGULAR;
@@ -21,6 +22,7 @@ public class BaseApplication extends Application {
 
     private void initFonts() {
         ROBOTO_BLACK = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Black.ttf");
+        ROBOTO_BOLD = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Bold.ttf");
         ROBOTO_LIGHT = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
         ROBOTO_MEDIUM = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Medium.ttf");
         ROBOTO_REGULAR = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">To Do List</string>
     <string name="delete_task">Delete</string>
+    <string name="progress_percentage">% Done</string>
 </resources>
