@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.ActionMode;
 
 import android.view.Menu;
@@ -36,7 +37,7 @@ import nl.qbusict.cupboard.QueryResultIterable;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     ArrayList<TaskModel> taskList;
     TaskAdapter adapter;
@@ -44,9 +45,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private TaskDbHelper taskDbHelper;
     private int taskPosition;
     private ActionMode mActionMode;
-    private double completedTasks;
-    private  int doneTasks;
-    private double totalTasks;
+    private int doneTasks;
 
     @BindView(R.id.listTask)
     ListView listView;
@@ -95,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         onLongClick(listView);
         getCompletedTasks();
 
+        listView.setDivider(null);
+        // listView.setDividerHeight(1);
+
         tvHeaderOne.setTypeface(BaseApplication.ROBOTO_MEDIUM);
         tvHeaderOne.setPaintFlags(tvHeaderOne.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tvHeaderTwo.setTypeface(BaseApplication.ROBOTO_REGULAR);
@@ -102,11 +104,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         tvListViewHeader.setTypeface(BaseApplication.ROBOTO_BLACK);
         tvListViewHeader.setPaintFlags(tvListViewHeader.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         etNewItem.setTypeface(BaseApplication.ROBOTO_MEDIUM);
+        etNewItem.setMovementMethod(ScrollingMovementMethod.getInstance());
         btnAddTask.setTypeface(BaseApplication.ROBOTO_BOLD);
         tvEmptyLayout.setTypeface(BaseApplication.ROBOTO_MEDIUM);
         progressBar.setScaleY(3f);
         progressBar.setMax(100);
     }
+
     /**
      * List all tasks in the Database
      */
@@ -122,7 +126,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             taskQuery = cupboard().withCursor(tasks).iterate(TaskModel.class);
             for (TaskModel task : taskQuery) {
                 tasksList.add(0, task);
-            } setEmptyView(tasksList);
+            }
+            setEmptyView(tasksList);
         } finally {
             // close the cursor
             tasks.close();
@@ -130,12 +135,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    /**
+     * Displayed when there are no tasks available
+     */
+
     public void setEmptyView(ArrayList<TaskModel> tasks) {
+        View view = findViewById(R.id.frame_empty);
         if (tasks.size() < 1) {
-            View view = findViewById(R.id.frame_empty);
             view.setVisibility(view.VISIBLE);
             llProgress.setVisibility(View.GONE);
             tvListViewHeader.setVisibility(View.GONE);
+        } else {
+            view.setVisibility(View.GONE);
+            llProgress.setVisibility(View.VISIBLE);
+            tvListViewHeader.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -186,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      * Reload the listview
      */
 
-    private void reload(){
+    private void reload() {
         taskList.clear();
         listTask(taskList);
         adapter.notifyDataSetChanged();
@@ -259,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             switch (item.getItemId()) {
                 case R.id.delete:
                     deleteTask(taskList, taskPosition);
-                    Toast.makeText(MainActivity.this, "Task moved to trash", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Task deleted", Toast.LENGTH_LONG).show();
                     mode.finish();
                     return true;
                 default:
@@ -283,16 +297,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void getCompletedTasks() {
         ArrayList<TaskModel> tasks = new ArrayList<>();
+        double completedTasks = 0;
+        doneTasks = 0;
         for (TaskModel model : taskList) {
             if (model.isSelected()) {
                 tasks.add(model);
                 doneTasks = tasks.size();
-
             }
         }
 
-        totalTasks = (double) taskList.size();
-        completedTasks = Math.round(((doneTasks/totalTasks)*100) * 100D) / 100D;
+        double totalTasks = (double) taskList.size();
+        if (doneTasks > 0) {
+            completedTasks = Math.round(((doneTasks / totalTasks) * 100) * 100D) / 100D;
+        }
+
         progressBar.setProgress((int) completedTasks);
         tvProgress.setText(completedTasks + getString(R.string.progress_percentage));
     }

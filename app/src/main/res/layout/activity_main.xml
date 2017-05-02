@@ -81,7 +81,7 @@
             android:id="@+id/listTask"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/btnAddTask"
+            android:layout_above="@+id/etNewTask"
             android:layout_below="@id/tv_listview_header"
             android:layout_marginLeft="-10dp"/>
         <RelativeLayout
@@ -126,7 +126,9 @@
             android:layout_toLeftOf="@+id/btnAddTask"
             android:layout_toStartOf="@+id/btnAddTask"
             android:layout_alignParentBottom="true"
-            android:inputType="textCapSentences|textMultiLine"/>
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="3"
+            android:scrollbars="vertical"/>
 
         <Button
             android:layout_width="wrap_content"
