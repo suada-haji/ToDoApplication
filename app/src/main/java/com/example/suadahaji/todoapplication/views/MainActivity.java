@@ -95,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         getCompletedTasks();
 
         listView.setDivider(null);
-        // listView.setDividerHeight(1);
 
         tvHeaderOne.setTypeface(BaseApplication.ROBOTO_MEDIUM);
         tvHeaderOne.setPaintFlags(tvHeaderOne.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -149,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             view.setVisibility(View.GONE);
             llProgress.setVisibility(View.VISIBLE);
             tvListViewHeader.setVisibility(View.VISIBLE);
-
         }
     }
 
@@ -160,9 +158,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void createTask(View view) {
 
         TaskModel model = new TaskModel();
-        View parent = (View) view.getParent();
-        EditText taskET = (EditText) parent.findViewById(R.id.etNewTask);
-        String task_title = taskET.getText().toString().trim();
+        String task_title = etNewItem.getText().toString().trim();
         if (task_title.matches("")) {
             return;
         } else {
@@ -170,9 +166,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         cupboard().withDatabase(database).put(model);
-        taskET.setText("");
-        reload();
-
+        etNewItem.setText("");
+        reload(taskList);
     }
 
     /**
@@ -193,16 +188,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         values.put("selected", model.isSelected());
         cupboard().withDatabase(database).update(TaskModel.class, values, "task_name = ?", model.getTask_name());
 
-        reload();
+        reload(taskList);
     }
 
     /**
      * Reload the listview
      */
 
-    private void reload() {
-        taskList.clear();
-        listTask(taskList);
+    private void reload(ArrayList<TaskModel> models) {
+        models.clear();
+        listTask(models);
         adapter.notifyDataSetChanged();
         getCompletedTasks();
 
@@ -231,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         TaskModel taskModel = models.get(position);
         cupboard().withDatabase(database).delete(TaskModel.class, taskModel.get_id());
         models.remove(position);
-        reload();
+        reload(models);
     }
 
     @Override
@@ -249,9 +244,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             mode.setTitle("Options");
-            // Inflate a menu resource providing context menu items
+            // Inflate a task_menu resource providing context task_menu items
             MenuInflater inflater = mode.getMenuInflater();
-            inflater.inflate(R.menu.menu, menu);
+            inflater.inflate(R.menu.task_menu, menu);
             return true;
         }
 
@@ -266,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
         /**
-         * Called when the user selects a contextual menu item
+         * Called when the user selects a contextual task_menu item
          */
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
@@ -308,10 +303,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         double totalTasks = (double) taskList.size();
         if (doneTasks > 0) {
-            completedTasks = Math.round(((doneTasks / totalTasks) * 100) * 100D) / 100D;
+            completedTasks = ((doneTasks / totalTasks) * 100);
         }
 
-        progressBar.setProgress((int) completedTasks);
-        tvProgress.setText(completedTasks + getString(R.string.progress_percentage));
+        int size = (int) completedTasks;
+
+        progressBar.setProgress(size);
+        tvProgress.setText(size + getString(R.string.progress_percentage));
     }
+
 }
