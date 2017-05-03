@@ -158,9 +158,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void createTask(View view) {
 
         TaskModel model = new TaskModel();
-        View parent = (View) view.getParent();
-        EditText taskET = (EditText) parent.findViewById(R.id.etNewTask);
-        String task_title = taskET.getText().toString().trim();
+        String task_title = etNewItem.getText().toString().trim();
         if (task_title.matches("")) {
             return;
         } else {
@@ -168,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         cupboard().withDatabase(database).put(model);
-        taskET.setText("");
+        etNewItem.setText("");
         reload(taskList);
     }
 

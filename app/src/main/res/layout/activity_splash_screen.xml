@@ -41,7 +41,7 @@
             android:textColor="@android:color/white"
             android:text="Get Started"
             android:textAllCaps="true"
-            android:background="@drawable/btn_background"
+            android:background="@drawable/splash_btn_background"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
             android:layout_marginTop="50dp"

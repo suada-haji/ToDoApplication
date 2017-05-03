@@ -145,14 +145,14 @@
             android:layout_marginLeft="@dimen/margin_20"
             android:layout_marginRight="@dimen/margin_20"
             android:layout_marginTop="@dimen/margin_5"
-            android:background="@color/colorAccent"
+            android:background="@drawable/add_task_btn_bg"
             android:minHeight="@dimen/margin_30"
-            android:minWidth="@dimen/margin_60"
+            android:minWidth="80dp"
             android:onClick="createTask"
             android:text="@string/add"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_12" />
+            android:textSize="@dimen/text_15" />
 
     </RelativeLayout>
 
